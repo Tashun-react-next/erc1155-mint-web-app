@@ -4,40 +4,56 @@ import styles from '../styles/Home.module.css'
 
 export default function Home() {
   return (
-      <>
-          <div className="container p-3">
-              <button className="btn btn-primary m-3">KindaCode.com</button>
-              <button className="btn btn-warning m-3">Hello</button>
-
-              <div className="dropdown m-3">
-                  <button
-                      className="btn btn-secondary dropdown-toggle"
-                      type="button"
-                      data-bs-toggle="dropdown"
-                      id="dropdownMenuButton1"
-                      aria-expanded="false"
-                  >
-                      Dropdown button
-                  </button>
-                  <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                      <li>
-                          <a className="dropdown-item" href="#">
-                              Option 1
-                          </a>
-                      </li>
-                      <li>
-                          <a className="dropdown-item" href="#">
-                              Option 2
-                          </a>
-                      </li>
-                      <li>
-                          <a className="dropdown-item" href="#">
-                              Option 3
-                          </a>
-                      </li>
-                  </ul>
+      <div className="container">
+      <br/><br/>
+      <br/><br/>
+          <div className="d-flex flex-row">
+              <div className="p-2">
+                  <div className="card" style={{"width": "18rem"}}>
+                      <img className="card-img-top" src="..." alt="Card image cap"/>
+                      <div className="card-body">
+                          <h5 className="card-title">Card title</h5>
+                          <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                          <a href="#" className="btn btn-primary">Go somewhere</a>
+                      </div>
+                  </div>
               </div>
+
+              <div className="p-2">
+                  <div className="card" style={{"width": "18rem"}}>
+                      <img className="card-img-top" src="..." alt="Card image cap"/>
+                      <div className="card-body">
+                          <h5 className="card-title">Card title</h5>
+                          <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                          <a href="#" className="btn btn-primary">Go somewhere</a>
+                      </div>
+                  </div>
+              </div>
+
+              <div className="p-2">
+                  <div className="card" style={{"width": "18rem"}}>
+                      <img className="card-img-top" src="..." alt="Card image cap"/>
+                      <div className="card-body">
+                          <h5 className="card-title">Card title</h5>
+                          <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                          <a href="#" className="btn btn-primary">Go somewhere</a>
+                      </div>
+                  </div>
+              </div>
+
+              <div className="p-2">
+                  <div className="card" style={{"width": "18rem"}}>
+                      <img className="card-img-top" src="..." alt="Card image cap"/>
+                      <div className="card-body">
+                          <h5 className="card-title">Card title</h5>
+                          <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                          <a href="#" className="btn btn-primary">Go somewhere</a>
+                      </div>
+                  </div>
+              </div>
+
           </div>
-      </>
+      </div>
+
   )
 }
