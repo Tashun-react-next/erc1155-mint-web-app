@@ -1,14 +1,31 @@
 import Link from "next/link";
+import Image from "next/image";
 
 export const SideNavbar = (props) => {
+
+    const getNavBarItem = (isActive, name) => {
+        return (
+            <li className="nav-item">
+                <a href="#" className="nav-link" aria-current="page">
+                    <svg className="bi pe-none me-2" width="16" height="16">
+                        <use xlinkHref="#home"></use>
+                    </svg>
+                    {name}
+                </a>
+            </li>
+        )
+    }
+
     return (
         <div className="d-flex flex-column flex-shrink-0 p-3 text-bg-dark" style={{"width":"280px", height: "100vh"}}>
-            <a href="/" className="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
-                <svg className="bi pe-none me-2" width="40" height="32">
-                    <use xlinkHref="#bootstrap"></use>
-                </svg>
-                <span className="fs-4">Sidebar</span>
-            </a>
+            <div className="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+                    <Image src="/icons/1.png"
+                    width="50px"
+                    height="50px"
+                    alt="Expand"
+                    />
+                <span className="ps-2 fs-4">Mint your Stuff</span>
+            </div>
             <hr/>
             <ul className="nav nav-pills flex-column mb-auto">
                 <li className="nav-item">
