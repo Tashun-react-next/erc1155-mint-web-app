@@ -1,0 +1,32 @@
+[
+  {
+    "link": "/",
+    "displayName": "All Tokens",
+    "shortDisplay": "All..",
+    "isSelected": true
+  },
+  {
+    "link": "/mint",
+    "displayName": "Mint Tokens",
+    "shortDisplay": "Mint..",
+    "isSelected": false
+  },
+  {
+    "link": "/forge",
+    "displayName": "Forge Tokens",
+    "shortDisplay": "Forge..",
+    "isSelected": false
+  },
+  {
+    "link": "/trade",
+    "displayName": "Trade Tokens",
+    "shortDisplay": "Trade..",
+    "isSelected": false
+  },
+  {
+    "link": "/burn",
+    "displayName": "Burn Tokens",
+    "shortDisplay": "Burn..",
+    "isSelected": false
+  }
+]
