@@ -1,59 +1,69 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import styles from '../styles/Home.module.css'
+import { getCard } from "../components/basic-components/card";
+import cardData from "../data/cardData.json";
+// import detectEthereumProvider from '@metamask/detect-provider';
 
-export default function Home() {
+export default function Home({
+  connected,
+  isOnValidNetwork,
+  tokenMap,
+  connectWallet,
+}) {
   return (
-      <div className="container">
-      <br/><br/>
-      <br/><br/>
-          <div className="d-flex flex-row">
-              <div className="p-2">
-                  <div className="card" style={{"width": "18rem"}}>
-                      <img className="card-img-top" src="..." alt="Card image cap"/>
-                      <div className="card-body">
-                          <h5 className="card-title">Card title</h5>
-                          <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                          <a href="#" className="btn btn-primary">Go somewhere</a>
-                      </div>
-                  </div>
+    <div className="">
+      {!connected && (
+        <div>
+          <span className=" d-flex  align-items-center flex-column pt-5">
+            <div className="border d-flex flex-column">
+              <div className="card" style={{ width: "25rem" }}>
+                <img src="/welcome.webp" className="card-img-top" alt="..." />
+                <div className="card-body text-center">
+                  <p className="card-text ">Helllooo!!! </p>
+                  <p className="card-text">Welcome to Minting Store</p>
+                  <p className="card-text">
+                    Let's Mint some stuff and have some fun !!
+                  </p>
+                </div>
               </div>
-
-              <div className="p-2">
-                  <div className="card" style={{"width": "18rem"}}>
-                      <img className="card-img-top" src="..." alt="Card image cap"/>
-                      <div className="card-body">
-                          <h5 className="card-title">Card title</h5>
-                          <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                          <a href="#" className="btn btn-primary">Go somewhere</a>
-                      </div>
-                  </div>
+            </div>
+          </span>
+          <span className=" d-flex  align-items-center flex-column pt-5">
+            <div className="border d-flex flex-column">
+              <div className="card" style={{ width: "25rem" }}>
+                <div className="card-body text-center">
+                  <p className="card-text ">Let's Get Started!! </p>
+                  <p className="card-text">Connect your wallet</p>
+                  <button
+                    type="mt-5 button"
+                    className="btn btn-primary"
+                    onClick={connectWallet}
+                  >
+                    Connect your wallet
+                  </button>
+                </div>
               </div>
-
-              <div className="p-2">
-                  <div className="card" style={{"width": "18rem"}}>
-                      <img className="card-img-top" src="..." alt="Card image cap"/>
-                      <div className="card-body">
-                          <h5 className="card-title">Card title</h5>
-                          <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                          <a href="#" className="btn btn-primary">Go somewhere</a>
-                      </div>
-                  </div>
-              </div>
-
-              <div className="p-2">
-                  <div className="card" style={{"width": "18rem"}}>
-                      <img className="card-img-top" src="..." alt="Card image cap"/>
-                      <div className="card-body">
-                          <h5 className="card-title">Card title</h5>
-                          <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                          <a href="#" className="btn btn-primary">Go somewhere</a>
-                      </div>
-                  </div>
-              </div>
-
+            </div>
+          </span>
+        </div>
+      )}{" "}
+      {connected && isOnValidNetwork && (
+        <div>
+          <div className="container">
+            <div className="d-flex flex-row pt-5 row-cols-4 row">
+              {cardData.map((value, key) => {
+                // value.
+                value.key = key;
+                value.showBalance = true;
+                value.showButton = false;
+                value.balance = tokenMap?.get(value.no);
+                return getCard(value);
+              })}
+            </div>
           </div>
-      </div>
-
-  )
+        </div>
+      )}
+      {connected && !isOnValidNetwork && (
+        <div>Please Switch networks you are in a wrong network</div>
+      )}
+    </div>
+  );
 }
