@@ -31,7 +31,7 @@ function MyApp({Component, pageProps}) {
     const [selectedAccount, setSelectedAccount] = useState(null);
     const [isOnValidNetwork, setOnValidNetwork] = useState(false);
     const [isLoading, setLoading] = useState(true);
-    const [isProcessing, setProcessing] = useState(true);
+    const [isProcessing, setProcessing] = useState(false);
     const [chainId, setChainId] = useState("0");
     const [tokenMap, setTokenMap] = useState(new Map());
     const [navigation, setNavigation] = useState(null);
@@ -39,7 +39,7 @@ function MyApp({Component, pageProps}) {
     const [isError, setError] = useState(null);
 
     useEffect(() => {
-        setProcessing(true);
+        // setProcessing(true);
         checkIfWalletIsConnected(setError, setConnected, setSelectedAccount);
         import("bootstrap/dist/js/bootstrap.bundle.min.js");
     }, []);
@@ -85,7 +85,7 @@ function MyApp({Component, pageProps}) {
                 setProcessing
             );
             setupCardViewSubscription();
-            setProcessing(false);
+            // setProcessing(false);
         }
     }, [isOnValidNetwork]);
 
