@@ -1,34 +1,64 @@
-import React, { useState } from 'react';
-import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal';
+import React, { useState } from "react";
+import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
+import { CustomDropdown } from "../basic-components/CustomDropdown";
+import { getTradingFromNos, getTradingToNos } from "../../utils/general-utils";
+import { maxTradeValue, precision } from "../../models/component-models";
+import { getRateDetails, getSaveButton } from "./popup-util";
 
-export const Example =() => {
-    const [show, setShow] = useState(false);
+export const PopupModal = (props) => {
+  const [show, setShow] = useState(false);
+  const [amount, setAmount] = useState(1);
+  const [additionalTokenId, setAdditionalTokenId] = useState(0);
 
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
-    return (
-        <>
-            <Button variant="primary" onClick={handleShow}>
-                Launch demo modal
-            </Button>
+  useState(() => {
+    if (props?.defaultValue === "SHOW") {
+      handleShow();
+    }
+    if (props?.defaultValue === "HIDE") {
+      handleClose();
+    }
+  });
+  const handleInput = (value) => {
+    if (value > maxTradeValue) {
+      setAmount(maxTradeValue);
+    } else {
+      setAmount(value);
+    }
+  };
 
-            <Modal show={show} onHide={handleShow}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Modal heading</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>Woohoo,reading this text in a modal!</Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
-                        Close
-                    </Button>
-                    <Button variant="primary" onClick={handleClose}>
-                        Save Changes
-                    </Button>
-                </Modal.Footer>
-            </Modal>
-        </>
-    );
-}
+  return (
+    <div>
+      {props?.hideButton === false && (
+        <Button variant="primary" onClick={handleShow}>
+          {props?.buttonName}
+        </Button>
+      )}
 
+      <Modal show={show} onHide={handleShow}>
+        <Modal.Header closeButton={false}>
+          <Modal.Title>
+            {props?.title} {" " + props?.buttonName ? props?.buttonName : ""}{" "}
+          </Modal.Title>
+        </Modal.Header>
+
+        <Modal.Body>
+          <div className="container">
+            {props?.description}
+            {getRateDetails(props, setAdditionalTokenId, amount, handleInput)}
+          </div>
+        </Modal.Body>
+
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
+          {getSaveButton(props, amount, handleClose, additionalTokenId)}
+        </Modal.Footer>
+      </Modal>
+    </div>
+  );
+};

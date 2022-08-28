@@ -1,4 +1,4 @@
-.body-class {
+body {
   background: rgb(4,21,111);
   background: radial-gradient(circle, rgba(65,21,84,1) 0%, rgba(3,5,22,1) 100%);
 }
@@ -12,6 +12,14 @@
   background: linear-gradient(90deg, rgba(65,21,84,1) 0%, rgba(59,72,178,1) 73%);
 }
 
-.logo {
+.body-height {
+  height: 100vh
+}
+
+.text-white {
   color: #eaeaea;
+}
+
+.relative-position {
+  position: relative;
 }
