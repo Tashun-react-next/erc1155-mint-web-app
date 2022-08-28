@@ -62,7 +62,7 @@ export const checkIfWalletIsConnected = (setError, setConnected, setSelectedAcco
                     setConnected(true);
                     setSelectedAccount(account);
                 } else {
-                    console.error("No authorized account found");
+                    console.log("No authorized account found");
                 }
                 if (subscription) {
                     subscription.unsubscribe();
