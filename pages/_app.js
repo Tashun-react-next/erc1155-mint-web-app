@@ -93,99 +93,12 @@ function MyApp({Component, pageProps}) {
         setNavigation(getIndexFromNavigation(router.asPath));
     }, [router.query]);
 
-    // const checkIfWalletIsConnected = async () => {
-    //     try {
-    //         const {ethereum} = window;
-    //
-    //         if (!ethereum) {
-    //             console.error("Make sure you have metamask!");
-    //             return;
-    //         } else {
-    //             console.log("We have the ethereum object", ethereum);
-    //         }
-    //
-    //         const accounts = await ethereum.request({method: "eth_accounts"});
-    //
-    //         if (accounts.length !== 0) {
-    //             const account = accounts[0];
-    //             console.log("Found an authorized account:", account);
-    //             setConnected(true);
-    //             setSelectedAccount(account);
-    //             // await switchNetwork()
-    //         } else {
-    //             console.log("No authorized account found");
-    //         }
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    // };
+
 
     const setupCardViewSubscription = () => {
         getUpdatedCardData().subscribe((data) => setCardViewData(data));
     };
 
-    // /**
-    //  * Implement your connectWallet method here
-    //  */
-    // const connectWallet = async () => {
-    //     try {
-    //         const {ethereum} = window;
-    //
-    //         if (!ethereum) {
-    //             alert("Get MetaMask!");
-    //             return;
-    //         }
-    //
-    //         const accounts = await ethereum.request({
-    //             method: "eth_requestAccounts",
-    //         });
-    //
-    //         console.log("Connected", accounts[0]);
-    //         setConnected(true);
-    //         setSelectedAccount(accounts[0]);
-    //         // await switchNetwork()
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    // };
-
-    //  const switchNetwork = async () => {
-    //     // Check if MetaMask is installed
-    //     // MetaMask injects the global API into window.ethereum
-    //     if (window.ethereum) {
-    //         try {
-    //             // check if the chain to connect to is installed
-    //             await window.ethereum.request({
-    //                 method: "wallet_switchEthereumChain",
-    //                 params: [{chainId: AppChainId}], // chainId must be in hexadecimal numbers
-    //             });
-    //         } catch (error) {
-    //             // This error code indicates that the chain has not been added to MetaMask
-    //             // if it is not, then install it into the user MetaMask
-    //             if (error.code === 4902) {
-    //                 try {
-    //                     await window.ethereum.request({
-    //                         method: "wallet_addEthereumChain",
-    //                         params: [
-    //                             {
-    //                                 chainId: AppChainId,
-    //                                 rpcUrl: RCP_URL,
-    //                             },
-    //                         ],
-    //                     });
-    //                 } catch (addError) {
-    //                     console.error(addError);
-    //                 }
-    //             }
-    //             console.error(error);
-    //         }
-    //     } else {
-    //         // if no window.ethereum then MetaMask is not installed
-    //         alert(
-    //             "MetaMask is not installed. Please consider installing it: https://metamask.io/download.html"
-    //         );
-    //     }
-    // };
 
     const setNavigationRoute = (path) => {
         setRoute(router, path);
