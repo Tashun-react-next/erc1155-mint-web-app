@@ -13,11 +13,14 @@ export const getCard = (props) => {
           )}
           {props?.showButton && (
             <PopupModal
+              setLoading={props?.setLoading}
+              addLoading={props?.addLoading}
               buttonName={props?.buttonName}
               title={props?.title}
               id={props?.no}
               hideButton={false}
               rate={props?.rate}
+              showRate={props?.showRate}
               showDropdownView={props.showDropdownView}
               description={props?.description}
               func={props?.onClickFunction}

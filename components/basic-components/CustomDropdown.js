@@ -24,10 +24,7 @@ export const CustomDropdown = (props) => {
               key={index}
               value={value}
               onClick={() => {
-                props?.func((m) => {
-                  m.set(props?.index, value);
-                  return new Map(m);
-                });
+                props?.func(value);
                 setTitle(value);
               }}
             >

@@ -1,5 +1,7 @@
 import { getCard } from "../components/basic-components/card";
-import cardData from "../data/cardData.json";
+import { getUpdatedCardData } from "../services/data-interaction-service";
+import { useEffect, useState } from "react";
+import CustomLoader from "../components/basic-components/Loader";
 // import detectEthereumProvider from '@metamask/detect-provider';
 
 export default function Home({
@@ -7,6 +9,10 @@ export default function Home({
   isOnValidNetwork,
   tokenMap,
   connectWallet,
+  cardViewData,
+  setError,
+  setConnected,
+  setSelectedAccount,
 }) {
   return (
     <div className="">
@@ -35,7 +41,9 @@ export default function Home({
                   <button
                     type="mt-5 button"
                     className="btn btn-primary"
-                    onClick={connectWallet}
+                    onClick={() =>
+                      connectWallet(setError, setConnected, setSelectedAccount)
+                    }
                   >
                     Connect your wallet
                   </button>
@@ -45,11 +53,11 @@ export default function Home({
           </span>
         </div>
       )}{" "}
-      {connected && isOnValidNetwork && (
+      {connected && isOnValidNetwork && cardViewData && (
         <div>
           <div className="container">
             <div className="d-flex flex-row pt-5 row-cols-4 row">
-              {cardData.map((value, key) => {
+              {cardViewData?.map((value, key) => {
                 // value.
                 value.key = key;
                 value.showBalance = true;

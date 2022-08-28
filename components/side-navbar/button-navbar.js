@@ -1,3 +1,1 @@
-export const ButtonNavbar = (props) => {
-
-}
+export const ButtonNavbar = (props) => {};

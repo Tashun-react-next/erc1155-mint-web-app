@@ -1,4 +1,4 @@
-import {CustomImage} from "../basic-components/general-components";
+import { CustomImage } from "../basic-components/general-components";
 
 export const TopNavbar = (props) => {
   const getAccountAddress = (address) => {

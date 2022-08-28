@@ -1,9 +1,9 @@
-import {ethers} from "ethers";
-import {contractAddress} from "../models/component-models";
+import {BigNumber, ethers} from "ethers";
+import {AppChainId, contractAddress, RCP_URL} from "../models/component-models";
 import contractABI from "../data/ERC1155Contract.json";
 import {from, map, merge, Subject} from "rxjs";
 import {REDUCER_KEYS} from "./reducer";
-
+import navigationData from "../data/navigationData.json";
 
 export const getShortenedAccountNumber = (accountAddress) => {
     return (accountAddress.length > 12) ?
@@ -49,22 +49,111 @@ export const getChainIds = (setChainId) => {
     );
 }
 
+export const checkIfWalletIsConnected = (setError, setConnected, setSelectedAccount) => {
+    try {
+        const ethereum = getEthereumFromWindow(setError);
+        if (!ethereum) return;
+
+        const subscription = from(ethereum.request({method: "eth_accounts"})).subscribe(
+            accounts => {
+                if (accounts.length !== 0) {
+                    const account = accounts[0];
+                    console.log("Found an authorized account:", account);
+                    setConnected(true);
+                    setSelectedAccount(account);
+                } else {
+                    setError("No authorized account found");
+                }
+                if (subscription) {
+                    subscription.unsubscribe();
+                }
+            }
+        );
+
+
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+/**
+ * Implement your connectWallet method here
+ */
+export const connectWallet = (setError, setConnected, setSelectedAccount) => {
+    try {
+        const ethereum = getEthereumFromWindow(setError);
+
+        if (!ethereum) {
+            setError("MetaMask is not installed. Please consider installing it: https://metamask.io/download.html");
+            return;
+        }
+
+        const subscription = from(ethereum.request({
+            method: "eth_requestAccounts",
+        })).subscribe(accounts => {
+            console.log("Connected", accounts[0]);
+            setConnected(true);
+            setSelectedAccount(accounts[0]);
+            subscription.unsubscribe();
+        });
+    } catch (error) {
+        setError(error);
+    }
+};
+export const switchNetwork = (setError) => {
+    const ethereum = getEthereumFromWindow(setError);
+    try {
+        // check if the chain to connect to is installed
+        ethereum.request({
+            method: "wallet_switchEthereumChain",
+            params: [{chainId: AppChainId}],
+        });
+    } catch (error) {
+        if (error.code === 4902) {
+            try {
+                ethereum.request({
+                    method: "wallet_addEthereumChain",
+                    params: [
+                        {
+                            chainId: AppChainId,
+                            rpcUrl: RCP_URL,
+                        },
+                    ],
+                });
+            } catch (addError) {
+                setError(addError);
+            }
+        }
+        setError(error);
+    }
+
+};
+
+const getEthereumFromWindow = (setError) => {
+    const {ethereum} = window;
+    if (!ethereum) {
+        setError("MetaMask is not installed. Please consider installing it: https://metamask.io/download.html");
+    }
+    return ethereum;
+}
+
 
 //////////////////////////////////////////////
 
 
 export const getContractBalance = (selectedAccount, tokenId) => {
     try {
-        const {ethereum} = window;
-        if (ethereum) {
-            const provider = new ethers.providers.Web3Provider(ethereum);
-            const signer = provider.getSigner();
-            const contract = new ethers.Contract(contractAddress, contractABI.abi, signer);
-            return from(contract.balanceOf(selectedAccount, tokenId)).pipe(map(data => data.toString()));
+        const contract = getDeployedContractReference();
+        return from(contract.balanceOf(selectedAccount, tokenId)).pipe(map(data => data.toString()));
+    } catch (error) {
+        console.log(error);
+    }
+}
 
-        } else {
-            console.log("Ethereum object doesn't exist!")
-        }
+export const getTokenUpdatedPrice = (tokenId) => {
+    try {
+        const contract = getDeployedContractReference();
+        return from(contract.getMiningPriceForToken(tokenId)).pipe(map(data => BigNumber.from(data) / (10 ** 18)));
     } catch (error) {
         console.log(error);
     }
@@ -159,14 +248,22 @@ export const getAllTokenDetails = (selectedAccount, setTokenMap) => {
         console.log(id);
 
     });
-    // getContractBalance(selectedAccount, 0).subscribe(value => setTokenMap(prev => new Map(prev.set(0, value))));
-    // getContractBalance(selectedAccount, 1).subscribe(value => setTokenMap(prev => new Map(prev.set(1, value))));
-    // getContractBalance(selectedAccount, 2).subscribe(value => setTokenMap(prev => new Map(prev.set(2, value))));
-    // getContractBalance(selectedAccount, 3).subscribe(value => setTokenMap(prev => new Map(prev.set(3, value))));
-    // getContractBalance(selectedAccount, 4).subscribe(value => setTokenMap(prev => new Map(prev.set(4, value))));
-    // getContractBalance(selectedAccount, 5).subscribe(value => setTokenMap(prev => new Map(prev.set(5, value))));
-    // getContractBalance(selectedAccount, 6).subscribe(value => setTokenMap(prev => new Map(prev.set(6, value))));
 
+}
+
+export const setEventListener = (selectedAccount, isOnValidNetwork, setTokenMap,setProcessing) => {
+    const contract = getDeployedContractReference();
+    if (contract && selectedAccount && isOnValidNetwork) {
+        contract.on("ActionNotifier", (observer) => {
+            console.log(observer, selectedAccount);
+            if (observer?.toLowerCase() === selectedAccount?.toLowerCase()) {
+                if (selectedAccount && isOnValidNetwork) {
+                    getAllTokenDetails(selectedAccount, setTokenMap);
+                    setProcessing(() =>false);
+                }
+            }
+        });
+    }
 }
 
 export const getDeployedContractReference = () => {
@@ -189,4 +286,9 @@ export const getDeployedContractReference = () => {
 
 export const setRoute = (router, id) => {
     router.push(id);
+}
+
+
+export const getIndexFromNavigation = (navigation) => {
+    return navigationData.find(data => data.link === navigation)?.index;
 }
