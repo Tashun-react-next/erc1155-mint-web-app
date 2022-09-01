@@ -3,7 +3,7 @@ const navigationModel = {
   displayName: String,
   isSelected: Boolean,
 };
-
+//cool down pop up
 export const mintButtonName = "Mint";
 export const forgeButtonName = "Forge";
 export const tradeButtonName = "Trade";
