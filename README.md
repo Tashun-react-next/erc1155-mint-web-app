@@ -11,6 +11,7 @@ npm run dev
 # or
 yarn dev
 ```
+<a href="https://dreamy-gaufre-efa3e1.netlify.app/"> To Play the game Click Here!!! </a>
 
 
 
