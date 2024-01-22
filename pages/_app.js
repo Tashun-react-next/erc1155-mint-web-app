@@ -36,7 +36,7 @@ function MyApp({Component, pageProps}) {
     const [tokenMap, setTokenMap] = useState(new Map());
     const [navigation, setNavigation] = useState(null);
     const [cardViewData, setCardViewData] = useState(null);
-    const [isError, setError] = useState(null);
+    const [error, setError] = useState("");
 
     useEffect(() => {
         // setProcessing(true);
@@ -45,23 +45,26 @@ function MyApp({Component, pageProps}) {
     }, []);
 
     useEffect(() => {
-        getChainIds(setChainId);
-        console.log("ACC" + selectedAccount);
-        if (window.ethereum) {
-            window.ethereum.on("chainChanged", () => {
-                window.location.reload();
-                // switchNetwork();
-            });
+        if (connected) {
 
-            window.ethereum.on("accountsChanged", () => {
-                window.location.reload();
-            });
-            setEventListener(
-                selectedAccount,
-                isOnValidNetwork,
-                setTokenMap,
-                setProcessing
-            );
+            getChainIds(setChainId);
+            console.log("ACC" + selectedAccount);
+            if (window.ethereum) {
+                window.ethereum.on("chainChanged", () => {
+                    window.location.reload();
+                    // switchNetwork();
+                });
+
+                window.ethereum.on("accountsChanged", () => {
+                    window.location.reload();
+                });
+                setEventListener(
+                  selectedAccount,
+                  isOnValidNetwork,
+                  setTokenMap,
+                  setProcessing
+                );
+            }
         }
     }, [selectedAccount]);
 
@@ -156,6 +159,7 @@ function MyApp({Component, pageProps}) {
                                 setProcessing={setProcessing}
                                 chainId={chainId}
                                 tokenMap={tokenMap}
+                                error={error}
                                 setError={setError}
                                 setSelectedAccount={setSelectedAccount}
                                 setConnected={setConnected}
@@ -174,24 +178,25 @@ function MyApp({Component, pageProps}) {
                         description="Change the Network to Mumbai"
                         title="Invalid Network!!"
                         saveButtonName={"Change Network"}
-                        setError={setError}
+                        setError={"asdfasdf"}
                         func={() => switchNetwork(setError)}
                     />
 
                     <p>Please change to a valid Network</p>
                 </div>
             )}
-            {isError && (
+            {error && (
                 <PopupModal
-                    defaultValue={isError ? "SHOW" : "HIDE"}
+                    defaultValue={error ? "SHOW" : "HIDE"}
+                    onlyClose = {true}
                     hideButton={true}
-                    description={isError}
+                    description={error}
                     title="Error!!"
                 />
             )}
 
-            {isLoading && <div></div>}
-            {!isLoading && <div></div>}
+            {isLoading && <div>dfgdfg</div>}
+            {!isLoading && <div>aaaaaaaaaaaaaaa</div>}
         </div>
     );
 }

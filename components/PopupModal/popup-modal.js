@@ -56,7 +56,9 @@ export const PopupModal = (props) => {
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
-          {getSaveButton(props, amount, handleClose, additionalTokenId)}
+          {!props.onlyClose &&
+            getSaveButton(props, amount, handleClose, additionalTokenId)
+          }
         </Modal.Footer>
       </Modal>
     </div>
