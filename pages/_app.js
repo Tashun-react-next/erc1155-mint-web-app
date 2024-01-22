@@ -178,7 +178,7 @@ function MyApp({Component, pageProps}) {
                         description="Change the Network to Mumbai"
                         title="Invalid Network!!"
                         saveButtonName={"Change Network"}
-                        setError={"asdfasdf"}
+                        setError={error}
                         func={() => switchNetwork(setError)}
                     />
 
@@ -195,8 +195,8 @@ function MyApp({Component, pageProps}) {
                 />
             )}
 
-            {isLoading && <div>dfgdfg</div>}
-            {!isLoading && <div>aaaaaaaaaaaaaaa</div>}
+            {isLoading && <div></div>}
+            {!isLoading && <div></div>}
         </div>
     );
 }
