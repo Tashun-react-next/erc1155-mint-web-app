@@ -10,13 +10,14 @@ export default function Home({
   tokenMap,
   connectWallet,
   cardViewData,
+  error,
   setError,
   setConnected,
   setSelectedAccount,
 }) {
   return (
     <div className="">
-      {!connected && (
+      {!connected && error === "" && (
         <div>
           <span className=" d-flex  align-items-center flex-column pt-5">
             <div className="border d-flex flex-column">
